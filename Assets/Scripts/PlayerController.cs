@@ -29,22 +29,32 @@ public class PlayerController : MonoBehaviour
          GetComponent<Rigidbody2D>().MovePosition(p);
 
          if ((Vector2)transform.position == dest) {
-       if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.up))
+       if (Input.GetKey(KeyCode.UpArrow))
            dest = (Vector2)transform.position + Vector2.up;
-       if (Input.GetKey(KeyCode.RightArrow) && valid(Vector2.right))
+       if (Input.GetKey(KeyCode.RightArrow))
            dest = (Vector2)transform.position + Vector2.right;
-       if (Input.GetKey(KeyCode.DownArrow) && valid(-Vector2.up))
+       if (Input.GetKey(KeyCode.DownArrow))
            dest = (Vector2)transform.position - Vector2.up;
-       if (Input.GetKey(KeyCode.LeftArrow) && valid(-Vector2.right))
+       if (Input.GetKey(KeyCode.LeftArrow))
            dest = (Vector2)transform.position - Vector2.right;
    }
      }
 
-     bool valid(Vector2 dir) {
+    /* bool valid(Vector2 dir) {
          Vector2 pos = transform.position;
          RaycastHit2D hit = Physics2D.Linecast(pos + dir, pos);
          return (hit.collider == GetComponent<Collider2D>());
+
+    if (hit.collider.gameObject.CompareTag("Pickup") && hit.collider.gameObject.CompareTag("Enemy"))
+    {
+      return true;
+    }
+    else
+    {
+      return (hit.collider == GetComponent<Collider2D>());
+    }
      }
+    */
      void OnTriggerEnter2D(Collider2D other)
          {
              if (other.gameObject.CompareTag ("Pickup"))
