@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class PlayerController : MonoBehaviour
     public Text winText;
     public Text loseText;
     public float speed = 0.4f;
-    private int score;
+    public int score;
+    private int nextScene;
     Vector2 dest = Vector2.zero;
 
      void Start() {
@@ -17,10 +19,13 @@ public class PlayerController : MonoBehaviour
          score = 0;
          winText.text = "";
          loseText.text = "";
+         nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+         PlayerPrefs.SetInt ("PlayerScore", score);
          SetScoreText();
      }
 
-     void FixedUpdate() {
+     void FixedUpdate()
+     {
 
        if (Input.GetKeyDown(KeyCode.Escape)){
             Application.Quit();}
@@ -28,7 +33,8 @@ public class PlayerController : MonoBehaviour
          Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
          GetComponent<Rigidbody2D>().MovePosition(p);
 
-         if ((Vector2)transform.position == dest) {
+         if ((Vector2)transform.position == dest)
+      {
        if (Input.GetKey(KeyCode.UpArrow))
            dest = (Vector2)transform.position + Vector2.up;
        if (Input.GetKey(KeyCode.RightArrow))
@@ -37,7 +43,8 @@ public class PlayerController : MonoBehaviour
            dest = (Vector2)transform.position - Vector2.up;
        if (Input.GetKey(KeyCode.LeftArrow))
            dest = (Vector2)transform.position - Vector2.right;
-   }
+      }
+
      }
 
     /* bool valid(Vector2 dir) {
@@ -73,9 +80,12 @@ public class PlayerController : MonoBehaviour
         void SetScoreText()
         {
         scoreText.text = "Score: " + score.ToString ();
-        if (score >= 100)
+        if (score == 10)
         {
-            winText.text = "You Win!";
+            SceneManager.LoadScene(nextScene);
+            score = PlayerPrefs.GetInt ("PlayerScore");
+
+            //winText.text = "You Win!";
         }
     }
 }
