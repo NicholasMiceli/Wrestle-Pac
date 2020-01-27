@@ -14,21 +14,20 @@ public class PlayerController : MonoBehaviour
     private int nextScene;
     Vector2 dest = Vector2.zero;
 
+
+
      void Start() {
          dest = transform.position;
-         score = 0;
+         score = PlayerPrefs.GetInt("PlayerScore", 0);
          winText.text = "";
          loseText.text = "";
          nextScene = SceneManager.GetActiveScene().buildIndex + 1;
-         PlayerPrefs.SetInt ("PlayerScore", score);
          SetScoreText();
      }
 
      void FixedUpdate()
      {
 
-       if (Input.GetKeyDown(KeyCode.Escape)){
-            Application.Quit();}
 
          Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
          GetComponent<Rigidbody2D>().MovePosition(p);
@@ -72,7 +71,8 @@ public class PlayerController : MonoBehaviour
              }
              if (other.gameObject.CompareTag("Enemy"))
              {
-                 other.gameObject.SetActive (false);
+                 gameObject.SetActive (false);
+                 SceneManager.LoadScene("GameOver");
 
              }
         }
@@ -82,10 +82,14 @@ public class PlayerController : MonoBehaviour
         scoreText.text = "Score: " + score.ToString ();
         if (score == 10)
         {
-            SceneManager.LoadScene(nextScene);
+            SceneManager.LoadScene("LevelTwo");
             score = PlayerPrefs.GetInt ("PlayerScore");
 
             //winText.text = "You Win!";
+        }
+        if (score == 40)
+        {
+          SceneManager.LoadScene("Win");
         }
     }
 }
