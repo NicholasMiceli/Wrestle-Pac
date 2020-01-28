@@ -295,6 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1005153578}
   - component: {fileID: 1005153577}
+  - component: {fileID: 1005153579}
   m_Layer: 0
   m_Name: YouWin_render
   m_TagString: Untagged
@@ -365,6 +366,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1005153579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005153576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed30dbdd27ac64f4988830a12b330736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 10
+  NewLevel: Credits
 --- !u!1 &1666919641
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +409,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1682e2d6cb2c866419d89a0b12e537af, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

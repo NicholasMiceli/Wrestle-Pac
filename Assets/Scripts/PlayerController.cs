@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 0.6f;
     public int score;
     public Rigidbody2D rb;
+    public AudioSource soundSource;
+    public AudioClip collectSound;
     private int nextScene;
   //  Vector2 dest = Vector2.zero;
     Vector2 movement;
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
      void Start() {
     //     dest = transform.position;
     //     score = 0;
+         soundSource = GetComponent<AudioSource>();
          winText.text = "";
          loseText.text = "";
          nextScene = SceneManager.GetActiveScene().buildIndex + 1;
@@ -72,16 +75,18 @@ public class PlayerController : MonoBehaviour
          {
              if (other.gameObject.CompareTag ("Pickup"))
              {
+                 soundSource.PlayOneShot(collectSound);
                  other.gameObject.SetActive (false);
-                 score = score + 10;
+                 score = score + 100;
                  PlayerPrefs.SetInt("PlayerScore", score);
                  SetScoreText();
 
              }
              if (other.gameObject.CompareTag ("Pickup2"))
              {
+                 soundSource.PlayOneShot(collectSound);
                  other.gameObject.SetActive (false);
-                 score = score + 100;
+                 score = score + 1000;
                  PlayerPrefs.SetInt("PlayerScore", score);
                  SetScoreText();
 
@@ -97,14 +102,14 @@ public class PlayerController : MonoBehaviour
         void SetScoreText()
         {
         scoreText.text = "Score: " + score.ToString ();
-        if (score == 10)
+        if (score == 3200)
         {
             SceneManager.LoadScene(nextScene);
             score = PlayerPrefs.GetInt("PlayerScore");
 
             //winText.text = "You Win!";
         }
-        if (score == 40)
+        if (score == 11000)
         {
           SceneManager.LoadScene("Win");
         }
