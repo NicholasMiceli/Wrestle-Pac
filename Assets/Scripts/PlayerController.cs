@@ -9,30 +9,37 @@ public class PlayerController : MonoBehaviour
     public Text scoreText;
     public Text winText;
     public Text loseText;
-    public float speed = 0.4f;
+    public float speed = 0.6f;
     public int score;
+    public Rigidbody2D rb;
     private int nextScene;
-    Vector2 dest = Vector2.zero;
-
+  //  Vector2 dest = Vector2.zero;
+    Vector2 movement;
 
 
      void Start() {
-         dest = transform.position;
-         score = PlayerPrefs.GetInt("PlayerScore", 0);
+    //     dest = transform.position;
+    //     score = 0;
          winText.text = "";
          loseText.text = "";
          nextScene = SceneManager.GetActiveScene().buildIndex + 1;
          SetScoreText();
      }
 
+     void Update()
+     {
+       movement.x = Input.GetAxisRaw("Horizontal");
+       movement.y = Input.GetAxisRaw("Vertical");
+     }
+
      void FixedUpdate()
      {
+       rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
 
+        // Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
+      //   GetComponent<Rigidbody2D>().MovePosition(p);
 
-         Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
-         GetComponent<Rigidbody2D>().MovePosition(p);
-
-         if ((Vector2)transform.position == dest)
+      /*   if ((Vector2)transform.position == dest)
       {
        if (Input.GetKey(KeyCode.UpArrow))
            dest = (Vector2)transform.position + Vector2.up;
@@ -43,7 +50,7 @@ public class PlayerController : MonoBehaviour
        if (Input.GetKey(KeyCode.LeftArrow))
            dest = (Vector2)transform.position - Vector2.right;
       }
-
+      */
      }
 
     /* bool valid(Vector2 dir) {
@@ -67,7 +74,17 @@ public class PlayerController : MonoBehaviour
              {
                  other.gameObject.SetActive (false);
                  score = score + 10;
+                 PlayerPrefs.SetInt("PlayerScore", score);
                  SetScoreText();
+
+             }
+             if (other.gameObject.CompareTag ("Pickup2"))
+             {
+                 other.gameObject.SetActive (false);
+                 score = score + 100;
+                 PlayerPrefs.SetInt("PlayerScore", score);
+                 SetScoreText();
+
              }
              if (other.gameObject.CompareTag("Enemy"))
              {
@@ -82,8 +99,8 @@ public class PlayerController : MonoBehaviour
         scoreText.text = "Score: " + score.ToString ();
         if (score == 10)
         {
-            SceneManager.LoadScene("LevelTwo");
-            score = PlayerPrefs.GetInt ("PlayerScore");
+            SceneManager.LoadScene(nextScene);
+            score = PlayerPrefs.GetInt("PlayerScore");
 
             //winText.text = "You Win!";
         }
